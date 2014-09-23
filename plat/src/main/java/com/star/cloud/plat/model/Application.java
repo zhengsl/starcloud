@@ -1,23 +1,40 @@
 package com.star.cloud.plat.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class Application {
 	
 	private String id;
 	private String name;
-	private String description;
+	private String provider;
 	
 	private AppType type;
 	
-	private Command command;
-	private List<Application> dependency = new ArrayList<Application>();
+	private ResType resource;
 	
-	private List<Machine> machines = new ArrayList<Machine>();
+	private int minCPU;
+	private int minRAM;
+	private int minDisk;
+	private int minNIC;
+	
+	private OS os;
+	
+	private DeployType deployType;
+	
+	private Architecture architecture;
+	
+	private Map<String, String> parameters;
 	
 	public enum AppType {
-		AS, JOB, DATABASE
+		Encoder, Transcoder, Streamer, DRM
+	}
+	
+	public enum ResType {
+		Physical, Virtual, Hybrid
+	}
+	
+	public enum DeployType {
+		Distributed, Centralized
 	}
 
 	public String getId() {
@@ -36,14 +53,14 @@ public class Application {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getProvider() {
+		return provider;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setProvider(String provider) {
+		this.provider = provider;
 	}
-	
+
 	public AppType getType() {
 		return type;
 	}
@@ -52,28 +69,76 @@ public class Application {
 		this.type = type;
 	}
 
-	public Command getCommand() {
-		return command;
+	public ResType getResource() {
+		return resource;
 	}
 
-	public void setCommand(Command command) {
-		this.command = command;
+	public void setResource(ResType resource) {
+		this.resource = resource;
 	}
 
-	public List<Application> getDependency() {
-		return dependency;
+	public int getMinCPU() {
+		return minCPU;
 	}
 
-	public void setDependency(List<Application> dependency) {
-		this.dependency = dependency;
+	public void setMinCPU(int minCPU) {
+		this.minCPU = minCPU;
 	}
 
-	public List<Machine> getMachines() {
-		return machines;
+	public int getMinRAM() {
+		return minRAM;
 	}
 
-	public void setMachines(List<Machine> machines) {
-		this.machines = machines;
+	public void setMinRAM(int minRAM) {
+		this.minRAM = minRAM;
+	}
+
+	public int getMinDisk() {
+		return minDisk;
+	}
+
+	public void setMinDisk(int minDisk) {
+		this.minDisk = minDisk;
+	}
+
+	public int getMinNIC() {
+		return minNIC;
+	}
+
+	public void setMinNIC(int minNIC) {
+		this.minNIC = minNIC;
+	}
+
+	public OS getOs() {
+		return os;
+	}
+
+	public void setOs(OS os) {
+		this.os = os;
+	}
+
+	public DeployType getDeployType() {
+		return deployType;
+	}
+
+	public void setDeployType(DeployType deployType) {
+		this.deployType = deployType;
+	}
+	
+	public Architecture getArchitecture() {
+		return architecture;
+	}
+
+	public void setArchitecture(Architecture architecture) {
+		this.architecture = architecture;
+	}
+
+	public Map<String, String> getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(Map<String, String> parameters) {
+		this.parameters = parameters;
 	}
 	
 }
