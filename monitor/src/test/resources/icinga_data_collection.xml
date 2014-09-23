@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tasks>
+    <task>
+        <hostgroup><![CDATA[16card_server_001]]></hostgroup>
+        <hosts>
+            <![CDATA[
+            apalis0,apalis1,apalis2,apalis3,apalis4,apalis5,apalis6,apalis7, 
+            apalis8,apalis9,apalis10,apalis11,apalis12,apalis13,apalis14,apalis15
+            ]]>
+        </hosts>
+        <services>
+            <service name="CPU">
+                <![CDATA[
+                cpu.util
+                ]]>
+            </service>
+            <service name="Current Load">
+                <![CDATA[
+                load.load1,load.load5,load.load15
+                ]]>
+            </service>
+            <service></service>
+            <service></service>
+        </services>
+    </task>
+    <task>
+        
+        
+    </task>
+</tasks>

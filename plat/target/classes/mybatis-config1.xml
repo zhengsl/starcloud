@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+		<property name="driver" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/cloudplat" />
+		<property name="username" value="root" />
+		<property name="password" value="star123" />
+	</properties>
+
+	<typeAliases>
+		<typeAlias alias="Machine" type="com.star.cloud.plat.model.Machine" />
+		<typeAlias alias="Card" type="com.star.cloud.plat.model.Card" />
+		<typeAlias alias="Master" type="com.star.cloud.plat.model.Master" />
+		<typeAlias alias="Worker" type="com.star.cloud.plat.model.Worker" />
+		<typeAlias alias="VMInstance" type="com.star.cloud.plat.model.VMInstance" />
+		<typeAlias alias="Group" type="com.star.cloud.plat.model.Group" />
+		<typeAlias alias="Cluster" type="com.star.cloud.plat.model.Cluster" />
+		<typeAlias alias="VMProfile" type="com.star.cloud.plat.model.VMProfile" />
+		<typeAlias alias="MachineDTO" type="com.star.cloud.plat.dao.MachineDTO" />
+		<typeAlias alias="VMInstanceDTO" type="com.star.cloud.plat.dao.VMInstanceDTO" />
+		<typeAlias alias="CardDTO" type="com.star.cloud.plat.dao.CardDTO" />
+		<typeAlias alias="CPU" type="com.star.cloud.plat.model.CPU" />
+		<typeAlias alias="RAM" type="com.star.cloud.plat.model.RAM" />
+		<typeAlias alias="Disk" type="com.star.cloud.plat.model.Disk" />
+		<typeAlias alias="OS" type="com.star.cloud.plat.model.OS" />
+		<typeAlias alias="NIC" type="com.star.cloud.plat.model.NIC" />
+		<typeAlias alias="VMType" type="com.star.cloud.plat.model.VMType" />
+		<typeAlias alias="IPv4" type="com.star.cloud.plat.model.IPv4" />
+		<typeAlias alias="MAC" type="com.star.cloud.plat.model.MAC" />
+		<typeAlias alias="StorageUnit" type="com.star.cloud.plat.model.StorageUnit" />
+		<typeAlias alias="BandwidthUnit" type="com.star.cloud.plat.model.BandwidthUnit" />
+	</typeAliases>
+
+	<environments default="production">
+		<environment id="production">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="com/star/cloud/plat/dao/MachineMapper.xml" />
+		<mapper resource="com/star/cloud/plat/dao/ClusterMapper.xml" />
+		<mapper resource="com/star/cloud/plat/dao/VMMapper.xml" />
+	</mappers>
+</configuration>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>	
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.star.cloud.plat.dao.ClusterMapper">
+	<resultMap id="clusterMachineMap" type="Cluster">
+		<id property="id" column="cluster_id" />
+		<result property="name" column="cluster_name" />
+		<collection property="groupList" ofType="Group">
+			<id property="id" column="group_id" />
+			<result property="name" column="group_name" />
+			<association property="cluster" javaType="Cluster">
+				<id property="id" column="cluster_id" />
+				<result property="name" column="cluster_name" />
+			</association>
+			<collection property="machines" ofType="Machine">
+				<id property="id" column="id" />
+				<result property="name" column="name" />
+				<result property="model" column="model" />
+				<association property="adminIP" javaType="IPv4">
+					<result property="address" column="ip_address"/>
+				</association>
+			</collection>
+		</collection>
+	</resultMap>
+
+	<select id="getCluster" resultMap="clusterMachineMap">
+		select * from machine where cluster_id = #{0} or cluster_name = #{1}
+	</select>
+	
+	<resultMap id="groupMachineMap" type="Group">
+		<id property="id" column="group_id" />
+		<result property="name" column="group_name" />
+		<association property="cluster" javaType="Cluster">
+			<id property="id" column="cluster_id" />
+			<result property="name" column="cluster_name" />
+		</association>
+		<collection property="machines" ofType="Machine">
+			<id property="id" column="id" />
+			<result property="name" column="name" />
+			<result property="model" column="model" />
+			<association property="adminIP" javaType="IPv4">
+				<result property="address" column="ip_address"/>
+			</association>
+		</collection>
+	</resultMap>
+
+	<select id="getGroup" resultMap="groupMachineMap">
+		select * from machine where group_id = #{0} or group_name = #{1}
+	</select>
+	
+	<insert id="insertMachine" parameterType="MachineDTO">
+		insert into machine (id, name, model, cluster_id, cluster_name, group_id, group_name, ip_address, host_name)
+		values (#{id}, #{name}, #{model}, #{clusterId}, #{clusterName}, #{groupId}, #{groupName}, #{ipAddress}, #{hostName})
+	</insert>
+	
+	<update id="updateMachine" parameterType="MachineDTO">
+		update machine set
+		  name = #{name}, model = #{model}, cluster_id = #{clusterId}, cluster_name = #{clusterName},
+		  group_id = #{groupId}, group_name = #{groupName}, ip_address = #{ipAddress}, host_name = #{hostName}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteGroupByIdName" parameterType="MachineDTO">
+		delete from machine where group_id = #{groupId} or group_name = #{groupName}
+	</delete>
+	
+	<delete id="deleteMachineByIdName" parameterType="MachineDTO">
+		delete from machine where id = #{id} or name = #{name}
+	</delete>
+	
+</mapper>

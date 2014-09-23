@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>	
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.star.cloud.plat.dao.MachineMapper">
+	<resultMap id="basicMachineMap" type="Machine">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="model" column="model" />
+		<result property="hostName" column="host_name" />
+		<association property="adminIP" javaType="IPv4">
+			<result property="address" column="ip_address" />
+		</association>
+		<association property="group" javaType="Group">
+			<id property="id" column="group_id" />
+			<result property="name" column="group_name" />
+			<association property="cluster" javaType="Cluster">
+				<id property="id" column="cluster_id"/>
+				<result property="name" column="cluster_name" />
+			</association>
+		</association>
+	</resultMap>
+
+	<select id="getMachine" resultMap="basicMachineMap">
+		select * from machine where id = #{0} or name = #{1}
+	</select>
+	
+	<resultMap id="basicCardMap" type="Card">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="type" column="type" />
+		<association property="machine" javaType="Machine">
+			<id property="id" column="machine_id" />
+		</association>
+		<association property="os" javaType="OS">
+			<result property="name" column="os_name" />
+		</association>
+		<association property="ip" javaType="IPv4">
+			<result property="address" column="ip_address" />
+			<result property="netmask" column="ip_netmask" />
+			<result property="gateway" column="ip_gateway" />
+		</association>
+		<association property="mac" javaType="MAC">
+			<result property="address" column="mac_address" />
+		</association>
+		<association property="cpu" javaType="CPU">
+			<result property="socketNum" column="cpu_socketnum" />
+			<result property="coreNum" column="cpu_corenum" />
+			<result property="threadNum" column="cpu_threadnum" />
+			<result property="frequency" column="cpu_frequency" />
+			<result property="model" column="cpu_model" />
+		</association>
+		<association property="ram" javaType="RAM">
+			<result property="amount" column="ram_amount" />
+			<result property="unit" column="ram_unit" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+			<result property="frequency" column="ram_frequency" />
+		</association>
+		<association property="nic" javaType="NIC">
+			<result property="bandwidth" column="nic_bandwidth" />
+			<result property="unit" column="nic_unit" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		</association>
+		<association property="disk" javaType="Disk">
+			<result property="amount" column="disk_amount" />
+			<result property="unit" column="disk_unit" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+			<result property="type" column="disk_type" />
+		</association>
+	</resultMap>
+
+	<select id="getCard" resultMap="basicCardMap">
+		select * from card where id = #{0} or name = #{1}
+	</select>
+	
+	<select id="getCardsUnderMachine" resultMap="basicCardMap">
+		select * from card where machine_id = #{0}
+	</select>
+	
+	<insert id="insertCard" parameterType="CardDTO">
+		insert into card (id, name, machine_id, type, os_name, ip_address, mac_address, cpu_socketnum, cpu_corenum, 
+			cpu_threadnum, cpu_frequency, cpu_model, ram_amount, ram_unit, ram_frequency, nic_bandwidth, nic_unit, 
+			disk_amount, disk_unit, disk_type)
+		values (#{id}, #{name}, #{machineId}, #{type}, #{osName}, #{ipAddress}, #{macAddress}, #{cpuSocketNum}, 
+			#{cpuCoreNum}, #{cpuThreadNum}, #{cpuFrequency}, #{cpuModel}, #{ramAmount}, #{ramUnit}, #{ramFrequency}, 
+			#{nicBandwidth}, #{nicUnit}, #{diskAmount}, #{diskUnit}, #{diskType})
+	</insert>
+	
+	<update id="updateCard" parameterType="CardDTO">
+		update card set
+		  name = #{name}, machine_id = #{machineId}, type = #{type}, os_name = #{osName}, ip_address = #{ipAddress},  
+		  mac_address = #{macAddress}, cpu_socketnum = #{cpuSocketNum}, cpu_corenum = #{cpuCoreNum}, 
+		  cpu_threadnum = #{cpuThreadNum}, cpu_frequency = #{cpuFrequency}, cpu_model = #{cpuModel},
+		  ram_amount = #{ramAmount}, ram_unit = #{ramUnit}, ram_frequency = #{ramFrequency}, 
+		  nic_bandwidth = #{nicBandwidth}, nic_unit = #{nicUnit}, disk_amount = #{diskAmount},
+		  disk_unit = #{diskUnit}, disk_type = #{diskType}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteCardUnderMachine" parameterType="MachineDTO">
+		delete from card where machine_id = #{id}
+	</delete>
+</mapper>

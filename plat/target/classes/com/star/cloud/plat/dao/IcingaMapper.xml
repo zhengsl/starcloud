@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>	
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.star.cloud.plat.dao.IcingaMapper">
+	<resultMap id="statusHistoryMap" type="StatusHistoryDTO">
+		<result property="timestamp" column="state_time" />
+		<result property="hostName" column="name1" />
+		<result property="serviceName" column="name2" />
+		<result property="fromStatus" column="last_state" />
+		<result property="toStatus" column="state" />
+		<result property="content" column="output" />
+	</resultMap>
+
+	<select id="getStatusHistory" resultMap="statusHistoryMap">
+		select 
+		    s.state_time as state_time, 
+		    o.name1 as name1, 
+		    o.name2 as name2, 
+		    s.last_state as last_state, 
+		    s.state as state, 
+		    s.output as output
+		from icinga_statehistory s
+		right join icinga_objects o 
+		    on s.object_id = o.object_id and o.name1 = #{0} and (o.objecttype_id = 1 or o.objecttype_id = 2)
+		where state_time > #{1}
+	</select>
+	
+</mapper>
